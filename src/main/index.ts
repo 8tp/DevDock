@@ -113,7 +113,7 @@ app.whenReady().then(() => {
   createWindow()
 
   // Create system tray icon with context menu
-  tray = createTray(() => mainWindow, processManager, resolveResource('tray-icon.png'))
+  tray = createTray(() => mainWindow, processManager)
 
   // Initialize MCP server (opt-in, controlled by settings)
   const mcpServer = new MCPServer({

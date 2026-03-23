@@ -113,11 +113,13 @@ const Sidebar: React.FC<SidebarProps> = React.memo(
               <button
                 key={item.id}
                 onClick={() => onViewChange(item.id)}
-                className="dd-focus-ring dd-no-drag flex items-center gap-3 cursor-pointer"
+                className="dd-focus-ring dd-no-drag flex items-center cursor-pointer"
                 style={{
                   height: 36,
-                  paddingLeft: collapsed ? 14 : 12,
-                  paddingRight: 12,
+                  gap: collapsed ? 0 : 12,
+                  paddingLeft: collapsed ? 0 : 12,
+                  paddingRight: collapsed ? 0 : 12,
+                  justifyContent: collapsed ? 'center' : 'flex-start',
                   borderRadius: 'var(--dd-radius-md)',
                   backgroundColor: isActive
                     ? 'var(--dd-surface-2)'
@@ -125,7 +127,9 @@ const Sidebar: React.FC<SidebarProps> = React.memo(
                   borderTop: 'none',
                   borderRight: 'none',
                   borderBottom: 'none',
-                  borderLeft: isActive ? '3px solid var(--dd-accent)' : '3px solid transparent',
+                  borderLeft: collapsed
+                    ? 'none'
+                    : isActive ? '3px solid var(--dd-accent)' : '3px solid transparent',
                   color: isActive ? 'var(--dd-text-primary)' : 'var(--dd-text-muted)',
                   transition: `background-color var(--dd-duration-fast) var(--dd-ease-out), color var(--dd-duration-fast) var(--dd-ease-out), border-left-color var(--dd-duration-fast) var(--dd-ease-out)`,
                   outline: 'none',
@@ -154,38 +158,30 @@ const Sidebar: React.FC<SidebarProps> = React.memo(
                   {item.icon}
                 </span>
 
-                {/* Label (hidden when collapsed) */}
-                <span
-                  className="truncate"
-                  style={{
-                    opacity: collapsed ? 0 : 1,
-                    transition: `opacity var(--dd-duration-normal) var(--dd-ease-out)`,
-                    flex: 1,
-                    textAlign: 'left'
-                  }}
-                >
-                  {item.label}
-                </span>
-
-                {/* Running count badge */}
-                {showBadge && (
-                  <span
-                    className="flex items-center justify-center text-xs font-mono font-medium shrink-0"
-                    style={{
-                      minWidth: 18,
-                      height: 18,
-                      borderRadius: 'var(--dd-radius-full)',
-                      backgroundColor: 'color-mix(in srgb, var(--dd-status-running) 20%, transparent)',
-                      color: 'var(--dd-status-running)',
-                      fontSize: 11,
-                      paddingLeft: 5,
-                      paddingRight: 5,
-                      opacity: collapsed ? 0 : 1,
-                      transition: `opacity var(--dd-duration-normal) var(--dd-ease-out)`
-                    }}
-                  >
-                    {runningCount}
-                  </span>
+                {/* Label + Badge (hidden when collapsed) */}
+                {!collapsed && (
+                  <>
+                    <span className="truncate" style={{ flex: 1, textAlign: 'left' }}>
+                      {item.label}
+                    </span>
+                    {showBadge && (
+                      <span
+                        className="flex items-center justify-center font-mono font-medium shrink-0"
+                        style={{
+                          minWidth: 18,
+                          height: 18,
+                          borderRadius: 'var(--dd-radius-full)',
+                          backgroundColor: 'color-mix(in srgb, var(--dd-status-running) 20%, transparent)',
+                          color: 'var(--dd-status-running)',
+                          fontSize: 11,
+                          paddingLeft: 5,
+                          paddingRight: 5,
+                        }}
+                      >
+                        {runningCount}
+                      </span>
+                    )}
+                  </>
                 )}
               </button>
             )
