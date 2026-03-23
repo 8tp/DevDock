@@ -114,7 +114,7 @@ const ProjectList: React.FC = () => {
 
       {/* Grid */}
       {filteredProjects.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 overflow-y-auto flex-1 pr-1">
+        <div className="flex flex-col gap-1.5 overflow-y-auto flex-1 pr-1">
           {filteredProjects.map((project) => (
             <ProjectCard
               key={project.id}

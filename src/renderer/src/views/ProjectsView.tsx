@@ -32,46 +32,23 @@ const FolderPlusIcon: React.FC = () => (
 // ─── Loading Skeleton ────────────────────────────────────────────────────────
 
 const LoadingSkeleton: React.FC = () => (
-  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 p-6">
-    {Array.from({ length: 6 }).map((_, i) => (
+  <div className="flex flex-col gap-1.5 p-6">
+    {Array.from({ length: 5 }).map((_, i) => (
       <div
         key={i}
-        className="flex flex-col gap-3 p-4 rounded-[var(--dd-radius-lg)] dd-animate-pulse"
+        className="flex items-center gap-3 px-3 py-2.5 rounded-[var(--dd-radius-md)] dd-animate-pulse"
         style={{
           backgroundColor: 'var(--dd-surface-1)',
           border: '1px solid var(--dd-border)',
-          borderLeftWidth: '4px',
+          borderLeftWidth: 3,
           borderLeftColor: 'var(--dd-border)'
         }}
       >
-        <div className="flex items-center justify-between">
-          <div
-            className="h-5 w-16 rounded-[var(--dd-radius-full)]"
-            style={{ backgroundColor: 'var(--dd-surface-3)' }}
-          />
-          <div
-            className="h-4 w-4 rounded-[var(--dd-radius-sm)]"
-            style={{ backgroundColor: 'var(--dd-surface-3)' }}
-          />
-        </div>
-        <div
-          className="h-5 w-3/4 rounded-[var(--dd-radius-sm)]"
-          style={{ backgroundColor: 'var(--dd-surface-3)' }}
-        />
-        <div
-          className="h-3 w-full rounded-[var(--dd-radius-sm)]"
-          style={{ backgroundColor: 'var(--dd-surface-2)' }}
-        />
-        <div className="flex items-center gap-2">
-          <div
-            className="h-3 w-3 rounded-[var(--dd-radius-full)]"
-            style={{ backgroundColor: 'var(--dd-surface-3)' }}
-          />
-          <div
-            className="h-3 w-12 rounded-[var(--dd-radius-sm)]"
-            style={{ backgroundColor: 'var(--dd-surface-3)' }}
-          />
-        </div>
+        <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: 'var(--dd-surface-3)' }} />
+        <div className="h-4 w-24 rounded-[var(--dd-radius-sm)]" style={{ backgroundColor: 'var(--dd-surface-3)' }} />
+        <div className="h-3 w-12 rounded-[var(--dd-radius-sm)]" style={{ backgroundColor: 'var(--dd-surface-2)' }} />
+        <div className="flex-1" />
+        <div className="h-3 w-10 rounded-[var(--dd-radius-sm)]" style={{ backgroundColor: 'var(--dd-surface-2)' }} />
       </div>
     ))}
   </div>
