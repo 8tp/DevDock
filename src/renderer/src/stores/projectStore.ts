@@ -34,31 +34,50 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
   fetchProjects: async () => {
     set({ loading: true })
     try {
-      const projects = (await window.api.listProjects()) as Project[]
+      const result = await window.api.listProjects()
+      const projects = Array.isArray(result) ? (result as Project[]) : []
       set({ projects })
+    } catch {
+      // IPC may fail if main process isn't ready
     } finally {
       set({ loading: false })
     }
   },
 
   startProject: async (id: string) => {
-    await window.api.startProject(id)
-    await get().fetchProjects()
+    try {
+      await window.api.startProject(id)
+      await get().fetchProjects()
+    } catch {
+      // start may fail
+    }
   },
 
   stopProject: async (id: string) => {
-    await window.api.stopProject(id)
-    await get().fetchProjects()
+    try {
+      await window.api.stopProject(id)
+      await get().fetchProjects()
+    } catch {
+      // stop may fail
+    }
   },
 
   restartProject: async (id: string) => {
-    await window.api.restartProject(id)
-    await get().fetchProjects()
+    try {
+      await window.api.restartProject(id)
+      await get().fetchProjects()
+    } catch {
+      // restart may fail
+    }
   },
 
   toggleFavorite: async (id: string) => {
-    await window.api.toggleFavorite(id)
-    await get().fetchProjects()
+    try {
+      await window.api.toggleFavorite(id)
+      await get().fetchProjects()
+    } catch {
+      // toggle may fail
+    }
   },
 
   scanProjects: async () => {
@@ -66,6 +85,8 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
     try {
       await window.api.scanProjects()
       await get().fetchProjects()
+    } catch {
+      // scan may fail
     } finally {
       set({ loading: false })
     }

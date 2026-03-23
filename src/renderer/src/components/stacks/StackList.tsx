@@ -22,12 +22,14 @@ const StackList: React.FC<StackListProps> = ({ onEdit, onNew }) => {
 
   const fetchData = useCallback(async () => {
     try {
-      const [stackData, projectData] = await Promise.all([
-        window.api.listStacks() as Promise<Stack[]>,
-        window.api.listProjects() as Promise<Project[]>
+      const [stackResult, projectResult] = await Promise.all([
+        window.api.listStacks(),
+        window.api.listProjects()
       ])
-      setStacks(stackData)
-      setProjects(projectData)
+      setStacks(Array.isArray(stackResult) ? (stackResult as Stack[]) : [])
+      setProjects(Array.isArray(projectResult) ? (projectResult as Project[]) : [])
+    } catch {
+      // IPC may fail
     } finally {
       setLoading(false)
     }

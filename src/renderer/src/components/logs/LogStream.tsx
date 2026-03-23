@@ -21,10 +21,27 @@ const ChevronDownIcon: React.FC = () => (
 )
 
 const LogStream: React.FC = () => {
-  const filteredEntries = useLogStore((s) => s.getFilteredEntries())
+  const entries = useLogStore((s) => s.entries)
+  const filterProjectIds = useLogStore((s) => s.filterProjectIds)
+  const filterLevel = useLogStore((s) => s.filterLevel)
+  const searchQuery = useLogStore((s) => s.searchQuery)
   const autoScroll = useLogStore((s) => s.autoScroll)
   const setAutoScroll = useLogStore((s) => s.setAutoScroll)
   const projects = useProjectStore((s) => s.projects)
+
+  // Compute filtered entries in the component with useMemo instead of
+  // calling getFilteredEntries() inside a Zustand selector (which returns
+  // a new array ref every render and causes infinite re-renders).
+  const filteredEntries = React.useMemo(() => {
+    const arr = entries ?? []
+    const query = searchQuery.toLowerCase().trim()
+    return arr.filter((entry) => {
+      if (filterProjectIds.size > 0 && !filterProjectIds.has(entry.projectId)) return false
+      if (filterLevel !== null && entry.level !== filterLevel) return false
+      if (query && !entry.message.toLowerCase().includes(query)) return false
+      return true
+    })
+  }, [entries, filterProjectIds, filterLevel, searchQuery])
 
   /** Map project IDs to their assigned colors for the gutter bar */
   const projectColorMap = React.useMemo(() => {

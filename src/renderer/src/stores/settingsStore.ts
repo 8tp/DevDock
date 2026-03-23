@@ -19,24 +19,38 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
     set({ loading: true })
     try {
       const settings = (await window.api.getSettings()) as AppSettings
-      set({ settings })
+      if (settings) set({ settings })
+    } catch {
+      // IPC may fail
     } finally {
       set({ loading: false })
     }
   },
 
   updateSettings: async (updates: Partial<AppSettings>) => {
-    await window.api.updateSettings(updates)
-    await get().fetchSettings()
+    try {
+      await window.api.updateSettings(updates)
+      await get().fetchSettings()
+    } catch {
+      // update may fail
+    }
   },
 
   addScanDirectory: async (path: string, maxDepth?: number) => {
-    await window.api.addScanDirectory(path, maxDepth)
-    await get().fetchSettings()
+    try {
+      await window.api.addScanDirectory(path, maxDepth)
+      await get().fetchSettings()
+    } catch {
+      // add may fail
+    }
   },
 
   removeScanDirectory: async (id: string) => {
-    await window.api.removeScanDirectory(id)
-    await get().fetchSettings()
+    try {
+      await window.api.removeScanDirectory(id)
+      await get().fetchSettings()
+    } catch {
+      // remove may fail
+    }
   }
 }))

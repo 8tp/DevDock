@@ -24,9 +24,9 @@ function PortsView(): React.JSX.Element {
   // Real-time port update subscription
   useEffect(() => {
     const unsubscribe = window.api.onPortUpdate((data: unknown) => {
-      // The main process pushes the full port list on each scan cycle
-      if (Array.isArray(data)) {
-        setPorts(data as PortBinding[])
+      const payload = data as { ports?: PortBinding[] }
+      if (payload && Array.isArray(payload.ports)) {
+        setPorts(payload.ports)
       }
     })
     return unsubscribe

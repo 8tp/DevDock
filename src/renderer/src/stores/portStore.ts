@@ -23,22 +23,34 @@ export const usePortStore = create<PortState>((set, get) => ({
   fetchPorts: async () => {
     set({ loading: true })
     try {
-      const ports = (await window.api.listPorts()) as PortBinding[]
+      const result = await window.api.listPorts()
+      const ports = Array.isArray(result) ? (result as PortBinding[]) : []
       set({ ports })
+    } catch {
+      // IPC may fail
     } finally {
       set({ loading: false })
     }
   },
 
   fetchConflicts: async () => {
-    const conflicts = (await window.api.getPortConflicts()) as PortConflict[]
-    set({ conflicts })
+    try {
+      const result = await window.api.getPortConflicts()
+      const conflicts = Array.isArray(result) ? (result as PortConflict[]) : []
+      set({ conflicts })
+    } catch {
+      // IPC may fail
+    }
   },
 
   killPort: async (port: number) => {
-    await window.api.killPort(port)
-    await get().fetchPorts()
-    await get().fetchConflicts()
+    try {
+      await window.api.killPort(port)
+      await get().fetchPorts()
+      await get().fetchConflicts()
+    } catch {
+      // kill may fail
+    }
   },
 
   setSelectedPort: (port) => set({ selectedPort: port }),

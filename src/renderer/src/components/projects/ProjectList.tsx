@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { useProjectStore } from '../../stores/projectStore'
 import { Button, Input } from '../ui'
 import ProjectCard from './ProjectCard'
@@ -35,9 +35,32 @@ const ProjectList: React.FC = () => {
   const stopProject = useProjectStore((s) => s.stopProject)
   const restartProject = useProjectStore((s) => s.restartProject)
   const toggleFavorite = useProjectStore((s) => s.toggleFavorite)
-  const getFilteredProjects = useProjectStore((s) => s.getFilteredProjects)
+  const projects = useProjectStore((s) => s.projects)
 
-  const filteredProjects = getFilteredProjects()
+  const filteredProjects = useMemo(() => {
+    const query = searchQuery.toLowerCase().trim()
+    let filtered = projects
+
+    if (filter === 'running') {
+      filtered = filtered.filter((p) => p.status === 'running' || p.status === 'starting')
+    } else if (filter === 'stopped') {
+      filtered = filtered.filter((p) => p.status === 'stopped' || p.status === 'error')
+    }
+
+    if (query) {
+      filtered = filtered.filter(
+        (p) =>
+          p.name.toLowerCase().includes(query) ||
+          p.path.toLowerCase().includes(query) ||
+          p.framework.toLowerCase().includes(query)
+      )
+    }
+
+    return filtered.sort((a, b) => {
+      if (a.isFavorite !== b.isFavorite) return a.isFavorite ? -1 : 1
+      return a.name.localeCompare(b.name)
+    })
+  }, [projects, filter, searchQuery])
 
   const handleFilterChange = useCallback(
     (value: FilterValue) => {

@@ -44,12 +44,21 @@ export const useLogStore = create<LogState>((set, get) => ({
   },
 
   fetchLogs: async (options) => {
-    const entries = (await window.api.getLogs(options)) as LogEntry[]
-    set({ entries })
+    try {
+      const result = await window.api.getLogs(options)
+      const entries = Array.isArray(result) ? (result as LogEntry[]) : []
+      set({ entries })
+    } catch {
+      // IPC may fail if main process isn't ready yet
+    }
   },
 
   clearLogs: async (projectId?: string) => {
-    await window.api.clearLogs(projectId)
+    try {
+      await window.api.clearLogs(projectId)
+    } catch {
+      // IPC may fail
+    }
     if (projectId) {
       set((state) => ({
         entries: state.entries.filter((e) => e.projectId !== projectId)

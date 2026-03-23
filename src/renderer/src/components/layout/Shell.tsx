@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { TitleBar } from './TitleBar'
 import { Sidebar } from './Sidebar'
 import { StatsBar } from './StatsBar'
+import { useProjectStore } from '../../stores/projectStore'
+import { usePortStore } from '../../stores/portStore'
 
 interface ShellProps {
   children: React.ReactNode
@@ -9,32 +11,38 @@ interface ShellProps {
   onViewChange: (view: string) => void
 }
 
-/**
- * Shell - Root layout that composes TitleBar, Sidebar, main content, and StatsBar.
- *
- * Layout structure:
- *   TitleBar        (full width, 44px, top)
- *   Sidebar | Main  (fills remaining vertical space)
- *   StatsBar        (full width, 48px, bottom)
- */
 function Shell({ children, currentView, onViewChange }: ShellProps): React.JSX.Element {
   const [collapsed, setCollapsed] = useState(false)
 
-  // TODO: Wire these to real Zustand stores when available
-  const [runningCount] = useState(0)
-  const [activePorts] = useState(0)
-  const [totalCpu] = useState(0)
-  const [totalMem] = useState(0)
+  const projects = useProjectStore((s) => s.projects)
+  const ports = usePortStore((s) => s.ports)
+
+  const runningCount = useMemo(
+    () => projects.filter((p) => p.status === 'running').length,
+    [projects]
+  )
+  const activePorts = ports.length
+
+  // CPU and memory are aggregated from running projects
+  const { totalCpu, totalMem } = useMemo(() => {
+    let cpu = 0
+    let mem = 0
+    for (const p of projects) {
+      if (p.status === 'running') {
+        cpu += p.cpu
+        mem += p.mem
+      }
+    }
+    return { totalCpu: cpu, totalMem: mem }
+  }, [projects])
 
   return (
     <div
       className="flex flex-col h-screen w-screen overflow-hidden"
       style={{ backgroundColor: 'var(--dd-bg)' }}
     >
-      {/* Title bar */}
       <TitleBar />
 
-      {/* Middle: sidebar + main content */}
       <div className="flex flex-1 min-h-0">
         <Sidebar
           currentView={currentView}
@@ -44,7 +52,6 @@ function Shell({ children, currentView, onViewChange }: ShellProps): React.JSX.E
           runningCount={runningCount}
         />
 
-        {/* Main content area */}
         <main
           className="flex-1 overflow-auto"
           style={{ backgroundColor: 'var(--dd-bg)' }}
@@ -53,7 +60,6 @@ function Shell({ children, currentView, onViewChange }: ShellProps): React.JSX.E
         </main>
       </div>
 
-      {/* Stats bar */}
       <StatsBar
         runningCount={runningCount}
         activePorts={activePorts}

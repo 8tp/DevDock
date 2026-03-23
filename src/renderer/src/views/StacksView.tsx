@@ -32,16 +32,17 @@ function StacksView(): React.JSX.Element {
 
   const handleSave = useCallback(
     async (data: { name: string; description: string; projectIds: string[]; autoStart: boolean }) => {
-      if (editingStack) {
-        // Update existing stack
-        await window.api.updateStack(editingStack.id, data)
-      } else {
-        // Create new stack
-        await window.api.createStack(data)
+      try {
+        if (editingStack) {
+          await window.api.updateStack(editingStack.id, data)
+        } else {
+          await window.api.createStack(data)
+        }
+      } catch {
+        // IPC may fail
       }
       setEditorOpen(false)
       setEditingStack(undefined)
-      // Force StackList to re-fetch by changing key
       setListKey((prev) => prev + 1)
     },
     [editingStack]
