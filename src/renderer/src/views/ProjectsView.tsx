@@ -134,6 +134,9 @@ const ProjectsView: React.FC = () => {
 
   useEffect(() => {
     fetchProjects()
+    // Poll every 3s for live CPU/mem/status updates
+    const interval = setInterval(() => { void fetchProjects() }, 3000)
+    return () => clearInterval(interval)
   }, [fetchProjects])
 
   // Loading state

@@ -1,5 +1,5 @@
 import { ipcMain, BrowserWindow, shell, dialog } from 'electron'
-import { spawn } from 'child_process'
+import { spawn, execFileSync } from 'child_process'
 import { IPC } from '@shared/ipc-channels'
 import type { DevDockDatabase } from '../db/schema'
 import type { PortScanner } from '../services/PortScanner'
@@ -27,20 +27,48 @@ export function registerIPCHandlers(services: Services): void {
   // Projects
   ipcMain.handle(IPC.PROJECTS_LIST, async () => {
     const projects = queries.listProjects(database)
-    // Enrich with runtime state
+    const currentPorts = portScanner.getPorts()
+
+    // Build a PID→PPID map for all port-bound processes so we can match
+    // child processes (node) back to their shell wrapper (managed PID)
+    const pidToParent: Record<number, number> = {}
+    if (currentPorts.length > 0) {
+      try {
+        const pids = currentPorts.map((p) => String(p.pid)).join(',')
+        const out = execFileSync('ps', ['-o', 'pid=,ppid=', '-p', pids], { encoding: 'utf8' })
+        for (const line of out.trim().split('\n')) {
+          const parts = line.trim().split(/\s+/)
+          if (parts.length >= 2) {
+            pidToParent[parseInt(parts[0], 10)] = parseInt(parts[1], 10)
+          }
+        }
+      } catch { /* ps may fail if PIDs are gone */ }
+    }
+
     for (const project of projects) {
       const info = processManager.getProcessInfo(project.id)
       if (info) {
         project.status = 'running'
         project.pid = info.pid
         project.uptime = Date.now() - info.startedAt
+
+        // Find the port this project is actually listening on.
+        // Match by: direct PID, or port-process is a child of our shell PID
+        const binding = currentPorts.find((p) =>
+          p.pid === info.pid || pidToParent[p.pid] === info.pid
+        )
+        if (binding) {
+          project.port = binding.port
+        }
       }
+
       // Enrich with git status
       try {
         project.git = await gitService.getStatus(project.path)
       } catch {
         project.git = null
       }
+
       // Enrich with resource data
       const history = resourceMonitor.getHistory(project.id)
       if (history.length > 0) {
