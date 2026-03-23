@@ -2,10 +2,11 @@
   "name": "devdock",
   "version": "1.0.0",
   "productName": "DevDock",
-  "description": "The Local Development Command Center",
+  "description": "The local development command center — manage projects, ports, services, and logs",
   "main": "./out/main/index.js",
-  "author": "DevDock",
+  "author": "DevDock Contributors",
   "license": "MIT",
+  "keywords": ["developer-tools", "electron", "port-manager", "local-development", "devtools"],
   "build": {
     "appId": "com.devdock.app",
     "productName": "DevDock",
