@@ -1,6 +1,15 @@
 import { app, BrowserWindow, shell, Tray, session } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+
+/** Resolve a path inside the resources directory, works in both dev and production */
+function resolveResource(...segments: string[]): string {
+  if (is.dev) {
+    return join(__dirname, '../../resources', ...segments)
+  }
+  return join(process.resourcesPath, 'resources', ...segments)
+}
+
 import { DevDockDatabase } from './db/schema'
 import { PortScanner } from './services/PortScanner'
 import { ProjectDiscovery } from './services/ProjectDiscovery'
@@ -42,7 +51,7 @@ function createWindow(): void {
     minWidth: 900,
     minHeight: 600,
     show: false,
-    icon: join(__dirname, '../../resources/icon.png'),
+    icon: resolveResource('icon.png'),
     backgroundColor: '#1A1B26',
     titleBarStyle: 'hiddenInset',
     trafficLightPosition: { x: 16, y: 16 },
@@ -104,7 +113,7 @@ app.whenReady().then(() => {
   createWindow()
 
   // Create system tray icon with context menu
-  tray = createTray(() => mainWindow, processManager)
+  tray = createTray(() => mainWindow, processManager, resolveResource('tray-icon.png'))
 
   // Initialize MCP server (opt-in, controlled by settings)
   const mcpServer = new MCPServer({

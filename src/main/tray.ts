@@ -4,21 +4,7 @@
 // The tray provides "Stop All Services" and "Quit" actions.
 
 import { Tray, Menu, nativeImage, app, BrowserWindow } from 'electron'
-import { join } from 'path'
 import type { ProcessManager } from './services/ProcessManager'
-
-// ─── Icon Generation ────────────────────────────────────────────────────────
-
-/**
- * Load the tray icon from `resources/tray-icon.png`.
- * Marked as a template image so macOS adapts it for dark/light menu bars.
- */
-function createTrayIcon(): Electron.NativeImage {
-  const iconPath = join(__dirname, '../../resources/tray-icon.png')
-  const icon = nativeImage.createFromPath(iconPath)
-  icon.setTemplateImage(true) // macOS menu bar
-  return icon
-}
 
 // ─── Tray Creation ──────────────────────────────────────────────────────────
 
@@ -32,9 +18,11 @@ function createTrayIcon(): Electron.NativeImage {
  */
 export function createTray(
   getMainWindow: () => BrowserWindow | null,
-  processManager: ProcessManager
+  processManager: ProcessManager,
+  iconPath: string
 ): Tray {
-  const icon = createTrayIcon()
+  const icon = nativeImage.createFromPath(iconPath)
+  icon.setTemplateImage(true)
   const tray = new Tray(icon)
 
   tray.setToolTip('DevDock')
