@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { useProjectStore } from '../stores/projectStore'
+import { useSettingsStore } from '../stores/settingsStore'
 import { ProjectList } from '../components/projects'
-import { Button } from '../components/ui'
+import { Button, Input } from '../components/ui'
 
 // ─── Folder Icon ─────────────────────────────────────────────────────────────
 
@@ -80,21 +81,82 @@ const LoadingSkeleton: React.FC = () => (
 
 const EmptyState: React.FC = () => {
   const scanProjects = useProjectStore((s) => s.scanProjects)
+  const addScanDirectory = useSettingsStore((s) => s.addScanDirectory)
+  const settings = useSettingsStore((s) => s.settings)
+  const fetchSettings = useSettingsStore((s) => s.fetchSettings)
+  const [dirPath, setDirPath] = useState('')
+  const [scanning, setScanning] = useState(false)
+
+  useEffect(() => {
+    fetchSettings()
+  }, [fetchSettings])
+
+  const hasScanDirs = (settings?.scanDirectories?.length ?? 0) > 0
+
+  const handleAddAndScan = useCallback(async () => {
+    const pathToAdd = dirPath.trim()
+    if (!pathToAdd) return
+    setScanning(true)
+    try {
+      await addScanDirectory(pathToAdd)
+      setDirPath('')
+      await scanProjects()
+    } catch (err) {
+      console.error('[DevDock] Add scan dir error:', err)
+    }
+    setScanning(false)
+  }, [dirPath, addScanDirectory, scanProjects])
+
+  const handleScanOnly = useCallback(async () => {
+    setScanning(true)
+    await scanProjects()
+    setScanning(false)
+  }, [scanProjects])
 
   return (
-    <div className="flex flex-col items-center justify-center flex-1 gap-4 h-full">
+    <div className="flex flex-col items-center justify-center flex-1 gap-5 h-full">
       <FolderPlusIcon />
       <div className="text-center">
         <h3 className="text-base font-semibold" style={{ color: 'var(--dd-text-primary)' }}>
           No projects discovered
         </h3>
         <p className="mt-1 text-sm" style={{ color: 'var(--dd-text-muted)' }}>
-          Add a scan directory in Settings to auto-discover your projects, or trigger a manual scan.
+          {hasScanDirs
+            ? 'No projects found in your scan directories. Try adding another directory.'
+            : 'Add a directory to scan for projects (e.g. ~/dev or ~/projects).'}
         </p>
       </div>
-      <Button variant="primary" size="md" onClick={() => scanProjects()}>
-        Scan for Projects
-      </Button>
+
+      <div className="flex items-center gap-2 w-full max-w-md">
+        <Input
+          placeholder="~/dev"
+          value={dirPath}
+          onChange={(e) => setDirPath(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') void handleAddAndScan()
+          }}
+          className="flex-1"
+        />
+        <Button
+          variant="primary"
+          size="md"
+          onClick={() => void handleAddAndScan()}
+          disabled={!dirPath.trim() || scanning}
+        >
+          {scanning ? 'Scanning...' : 'Add & Scan'}
+        </Button>
+      </div>
+
+      {hasScanDirs && (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => void handleScanOnly()}
+          disabled={scanning}
+        >
+          Re-scan existing directories
+        </Button>
+      )}
     </div>
   )
 }
