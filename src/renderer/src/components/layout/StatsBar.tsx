@@ -13,27 +13,34 @@ interface StatItemProps {
   dotColor?: string
   label: string
   value: string
+  valueColor?: string
 }
 
-const StatItem: React.FC<StatItemProps> = ({ dotColor, label, value }) => (
+const StatItem: React.FC<StatItemProps> = ({ dotColor, label, value, valueColor }) => (
   <div className="flex items-center gap-2">
     {dotColor && (
       <span
-        className="shrink-0"
-        style={{
-          width: 6,
-          height: 6,
-          borderRadius: 'var(--dd-radius-full)',
-          backgroundColor: dotColor
-        }}
+        className="shrink-0 rounded-full"
+        style={{ width: 6, height: 6, backgroundColor: dotColor }}
       />
     )}
-    <span style={{ color: 'var(--dd-text-secondary)', fontFamily: 'var(--dd-font-sans)' }}>
+    <span
+      style={{
+        fontSize: 10,
+        fontWeight: 700,
+        letterSpacing: '0.08em',
+        textTransform: 'uppercase' as const,
+        color: 'var(--dd-text-muted)',
+        fontFamily: 'var(--dd-font-sans)'
+      }}
+    >
       {label}
     </span>
     <span
       style={{
-        color: 'var(--dd-text-primary)',
+        fontSize: 14,
+        fontWeight: 700,
+        color: valueColor || 'var(--dd-text-primary)',
         fontFamily: 'var(--dd-font-mono)'
       }}
     >
@@ -60,19 +67,23 @@ const StatsBar: React.FC<StatsBarProps> = React.memo(
           dotColor={runningCount > 0 ? 'var(--dd-status-running)' : 'var(--dd-status-stopped)'}
           label={runningCount === 1 ? 'running' : 'running'}
           value={String(runningCount)}
+          valueColor="var(--dd-status-running)"
         />
         <StatItem
           dotColor="var(--dd-accent)"
           label={activePorts === 1 ? 'port' : 'ports'}
           value={String(activePorts)}
+          valueColor="var(--dd-accent)"
         />
         <StatItem
           label="CPU"
           value={`${totalCpu.toFixed(1)}%`}
+          valueColor="var(--dd-status-warning)"
         />
         <StatItem
           label="Mem"
           value={`${totalMem.toFixed(0)} MB`}
+          valueColor="var(--dd-syntax-keyword)"
         />
       </div>
     )

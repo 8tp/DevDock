@@ -205,10 +205,13 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ open, onClose, actions 
     renderedSections.push(
       <div
         key={`header-${category}`}
-        className="sticky top-0 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider dd-no-select"
+        className="sticky top-0 px-4 py-1.5 uppercase dd-no-select"
         style={{
           color: 'var(--dd-text-muted)',
-          backgroundColor: 'var(--dd-surface-1)'
+          backgroundColor: 'var(--dd-surface-1)',
+          fontSize: 10,
+          fontWeight: 700,
+          letterSpacing: '0.06em'
         }}
       >
         {category}
@@ -271,7 +274,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ open, onClose, actions 
     <div
       ref={backdropRef}
       className="fixed inset-0 z-50 flex items-start justify-center pt-[20vh] dd-animate-fade-in"
-      style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+      style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', backdropFilter: 'blur(4px)' }}
       onClick={handleBackdropClick}
     >
       <div
@@ -312,10 +315,11 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ open, onClose, actions 
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Type a command..."
-            className="w-full py-4 text-lg bg-transparent border-none outline-none"
+            className="w-full py-4 bg-transparent border-none outline-none"
             style={{
               color: 'var(--dd-text-primary)',
-              caretColor: 'var(--dd-accent)'
+              caretColor: 'var(--dd-accent)',
+              fontSize: 15
             }}
             aria-label="Search commands"
             autoComplete="off"

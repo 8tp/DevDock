@@ -1,3 +1,19 @@
+/* Geist Font Faces */
+@font-face {
+  font-family: 'Geist Sans';
+  src: url('../fonts/Geist-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('../fonts/GeistMono-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @import 'tailwindcss';
 @import './tokens.css';
 
@@ -23,8 +39,8 @@ body,
 
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -34,8 +50,6 @@ body,
 ::-webkit-scrollbar-thumb {
   background-color: var(--dd-border);
   border-radius: var(--dd-radius-full);
-  border: 2px solid transparent;
-  background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -120,6 +134,24 @@ kbd,
   to {
     transform: rotate(360deg);
   }
+}
+
+@keyframes dd-pulse-ring {
+  0% { transform: scale(1); opacity: 0.4; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* Card expand/collapse animation */
+.dd-card-detail {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--dd-duration-normal) var(--dd-ease-out);
+}
+.dd-card-detail.expanded {
+  grid-template-rows: 1fr;
+}
+.dd-card-detail > div {
+  overflow: hidden;
 }
 
 /* Animation utilities */

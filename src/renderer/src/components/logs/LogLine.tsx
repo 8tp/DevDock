@@ -83,7 +83,10 @@ const LogLine: React.FC<LogLineProps> = React.memo(({ entry, projectColor }) => 
   return (
     <div
       className="group flex items-start gap-2 px-3 py-0.5 hover:bg-[var(--dd-surface-2)] transition-colors duration-[var(--dd-duration-fast)] cursor-default"
-      style={{ minHeight: 24 }}
+      style={{
+        minHeight: 24,
+        backgroundColor: entry.level === 'error' ? 'color-mix(in srgb, var(--dd-status-error) 5%, transparent)' : undefined
+      }}
     >
       {/* Project color gutter bar */}
       <div
@@ -96,9 +99,10 @@ const LogLine: React.FC<LogLineProps> = React.memo(({ entry, projectColor }) => 
 
       {/* Timestamp */}
       <span
-        className="flex-shrink-0 text-xs leading-6"
+        className="flex-shrink-0 leading-6"
         style={{
           width: 80,
+          fontSize: 11,
           color: 'var(--dd-text-muted)',
           fontFamily: 'var(--dd-font-mono)'
         }}
@@ -113,7 +117,8 @@ const LogLine: React.FC<LogLineProps> = React.memo(({ entry, projectColor }) => 
           minWidth: 36,
           backgroundColor: `color-mix(in srgb, ${levelColor} 15%, transparent)`,
           color: levelColor,
-          fontFamily: 'var(--dd-font-mono)'
+          fontFamily: 'var(--dd-font-mono)',
+          fontStyle: entry.level === 'debug' ? 'italic' : undefined
         }}
       >
         {levelLabels[entry.level]}
@@ -121,8 +126,9 @@ const LogLine: React.FC<LogLineProps> = React.memo(({ entry, projectColor }) => 
 
       {/* Message */}
       <span
-        className="flex-1 text-sm leading-6 whitespace-pre-wrap break-all"
+        className="flex-1 leading-6 whitespace-pre-wrap break-all"
         style={{
+          fontSize: 12,
           color: entry.level === 'error' ? 'var(--dd-status-error)' : 'var(--dd-text-primary)',
           fontFamily: 'var(--dd-font-mono)'
         }}

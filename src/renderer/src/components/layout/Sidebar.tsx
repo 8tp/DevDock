@@ -120,11 +120,14 @@ const Sidebar: React.FC<SidebarProps> = React.memo(
                   paddingRight: 12,
                   borderRadius: 'var(--dd-radius-md)',
                   backgroundColor: isActive
-                    ? 'color-mix(in srgb, var(--dd-accent) 15%, transparent)'
+                    ? 'var(--dd-surface-2)'
                     : 'transparent',
-                  color: isActive ? 'var(--dd-accent)' : 'var(--dd-text-secondary)',
-                  transition: `background-color var(--dd-duration-fast) var(--dd-ease-out), color var(--dd-duration-fast) var(--dd-ease-out)`,
-                  border: 'none',
+                  borderTop: 'none',
+                  borderRight: 'none',
+                  borderBottom: 'none',
+                  borderLeft: isActive ? '3px solid var(--dd-accent)' : '3px solid transparent',
+                  color: isActive ? 'var(--dd-text-primary)' : 'var(--dd-text-muted)',
+                  transition: `background-color var(--dd-duration-fast) var(--dd-ease-out), color var(--dd-duration-fast) var(--dd-ease-out), border-left-color var(--dd-duration-fast) var(--dd-ease-out)`,
                   outline: 'none',
                   fontFamily: 'var(--dd-font-sans)',
                   fontSize: 13,
@@ -133,6 +136,18 @@ const Sidebar: React.FC<SidebarProps> = React.memo(
                   whiteSpace: 'nowrap'
                 }}
                 title={collapsed ? item.label : undefined}
+                onMouseEnter={(e) => {
+                  if (!isActive) {
+                    e.currentTarget.style.backgroundColor = 'var(--dd-surface-1)'
+                    e.currentTarget.style.color = 'var(--dd-text-secondary)'
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isActive) {
+                    e.currentTarget.style.backgroundColor = 'transparent'
+                    e.currentTarget.style.color = 'var(--dd-text-muted)'
+                  }
+                }}
               >
                 {/* Icon */}
                 <span className="shrink-0 flex items-center justify-center" style={{ width: 20, height: 20 }}>
