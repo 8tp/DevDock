@@ -46,50 +46,55 @@ export const useProjectStore = create<ProjectState>((set, get) => ({
 
   startProject: async (id: string) => {
     try {
-      await window.api.startProject(id)
-      await get().fetchProjects()
-    } catch {
-      // start may fail
+      const result = await window.api.startProject(id)
+      if (result && typeof result === 'object' && 'error' in result) {
+        console.error('[DevDock] Start failed:', (result as { error: string }).error)
+      }
+    } catch (err) {
+      console.error('[DevDock] Start project error:', err)
     }
+    await get().fetchProjects()
   },
 
   stopProject: async (id: string) => {
     try {
       await window.api.stopProject(id)
-      await get().fetchProjects()
-    } catch {
-      // stop may fail
+    } catch (err) {
+      console.error('[DevDock] Stop project error:', err)
     }
+    await get().fetchProjects()
   },
 
   restartProject: async (id: string) => {
     try {
-      await window.api.restartProject(id)
-      await get().fetchProjects()
-    } catch {
-      // restart may fail
+      const result = await window.api.restartProject(id)
+      if (result && typeof result === 'object' && 'error' in result) {
+        console.error('[DevDock] Restart failed:', (result as { error: string }).error)
+      }
+    } catch (err) {
+      console.error('[DevDock] Restart project error:', err)
     }
+    await get().fetchProjects()
   },
 
   toggleFavorite: async (id: string) => {
     try {
       await window.api.toggleFavorite(id)
-      await get().fetchProjects()
-    } catch {
-      // toggle may fail
+    } catch (err) {
+      console.error('[DevDock] Toggle favorite error:', err)
     }
+    await get().fetchProjects()
   },
 
   scanProjects: async () => {
     set({ loading: true })
     try {
       await window.api.scanProjects()
-      await get().fetchProjects()
-    } catch {
-      // scan may fail
-    } finally {
-      set({ loading: false })
+    } catch (err) {
+      console.error('[DevDock] Scan projects error:', err)
     }
+    await get().fetchProjects()
+    set({ loading: false })
   },
 
   setFilter: (filter) => set({ filter }),
