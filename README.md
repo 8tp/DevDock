@@ -1,14 +1,18 @@
 <p align="center">
-  <img src="resources/banner.png" alt="DevDock Banner" width="800" />
+  <img src="resources/icon-256.png" alt="DevDock" width="128" />
 </p>
+
+<h1 align="center">DevDock</h1>
 
 <p align="center">
   <strong>The Local Development Command Center</strong>
+  <br />
+  <sub>Manage projects, monitor ports, aggregate logs, and orchestrate services — all from one place.</sub>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/version-1.0.0-7AA2F7?style=flat-square" alt="Version" />
-  <img src="https://img.shields.io/badge/electron-33+-24283B?style=flat-square&logo=electron&logoColor=white" alt="Electron" />
+  <img src="https://img.shields.io/badge/electron-33-24283B?style=flat-square&logo=electron&logoColor=white" alt="Electron" />
   <img src="https://img.shields.io/badge/react-19-61DAFB?style=flat-square&logo=react&logoColor=white" alt="React" />
   <img src="https://img.shields.io/badge/typescript-5.7-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/license-MIT-9ECE6A?style=flat-square" alt="License" />
@@ -22,231 +26,119 @@
 
 ---
 
-DevDock is a cross-platform desktop application that consolidates project management, port monitoring, service orchestration, log aggregation, and resource monitoring into a single, beautifully designed interface. It sits alongside your editor and terminal as a persistent command center for your local development environment.
+## Why DevDock
 
-<p align="center">
-  <img src="resources/icon.png" alt="DevDock Icon" width="128" />
-</p>
+Modern developers juggle 5-15 local services across multiple projects. Managing them means a patchwork of terminal tabs, Activity Monitor, browser bookmarks, and tribal knowledge about which port belongs to what.
 
-## The Problem
+**DevDock fixes this.** It's a persistent, always-on dashboard that automatically discovers your projects, monitors ports, aggregates logs, tracks resource usage, and orchestrates multi-service stacks — all with a single click.
 
-Modern developers routinely juggle 5-15 local services across multiple projects. Managing them requires a patchwork of terminal tabs, Activity Monitor, browser bookmarks, and tribal knowledge about which port belongs to what.
-
-- **Port Collisions** — Multiple projects default to the same ports (3000, 8080), causing cryptic startup failures
-- **Service Amnesia** — Forgetting which services a project needs, leading to confusing runtime errors
-- **Zombie Processes** — Orphaned dev servers consuming CPU/memory that go unnoticed for days
-- **Context Switching** — Mentally reconstructing which services, branches, and env files are active
-- **Log Fragmentation** — Logs scattered across dozens of terminal tabs with no unified search
-
-## The Solution
-
-DevDock provides a persistent, always-on dashboard that automatically discovers projects, monitors ports, aggregates logs, tracks resource usage, and orchestrates multi-service stacks with a single click.
+| Problem | DevDock |
+|---------|--------|
+| Port collisions between projects | Real-time port map with conflict detection |
+| Forgetting which services to start | Zero-config auto-discovery of 14 frameworks |
+| Zombie processes eating CPU/memory | Per-process resource monitoring with sparklines |
+| Logs scattered across terminal tabs | Unified, searchable, virtualized log stream |
+| Manually starting 5+ services | One-click stack orchestration |
 
 ## Features
 
-### Project Discovery & Management
-- **Zero-config auto-discovery** — Point DevDock at your projects directory and it detects frameworks, package managers, scripts, ports, and git state automatically
-- **14 frameworks supported** — Next.js, Vite, Angular, SvelteKit, Node.js, Django, FastAPI, Rails, Go, Rust, .NET, Laravel, Docker Compose, Docker
-- **One-click lifecycle** — Start, stop, and restart any project with a single click or keyboard shortcut
-- **Git integration** — Branch name, ahead/behind remote, dirty file count on every project card
+**Project Discovery** — Point DevDock at a directory and it detects Next.js, Vite, Angular, SvelteKit, Node.js, Django, FastAPI, Rails, Go, Rust, .NET, Laravel, Docker Compose, and Docker projects. Start, stop, and restart any project with one click. Git branch, ahead/behind, and dirty file count on every card.
 
-### Port Map & Network Monitor
-- **Real-time port scanning** — Live TCP port monitoring with 2-second refresh, platform-native detection (lsof/netstat/ss)
-- **Visual port grid** — Color-coded tiles showing managed ports (green), external processes (blue), and conflicts (red)
-- **Port conflict detection** — Instantly identify when two projects want the same port
-- **One-click kill** — Terminate any process by port number with confirmation
+**Port Monitor** — Live TCP port scanning every 2 seconds using native OS commands (lsof / netstat / ss). Color-coded grid: green for managed ports, blue for external, red for conflicts. Kill any process by port number.
 
-### Unified Log Aggregation
-- **Multiplexed streaming** — All process stdout/stderr in one virtualized, searchable view
-- **Color-coded by project** — Each project's logs are visually distinguished
-- **Level detection** — Auto-detect INFO, WARN, ERROR, DEBUG with level-based filtering
-- **High performance** — 60fps rendering with 10,000+ lines via virtualized scrolling
-- **Full-text search** — Regex-capable search across all logs
+**Log Aggregation** — All process stdout/stderr in a single virtualized view. Auto-detected log levels (INFO, WARN, ERROR, DEBUG) with filtering. Regex search. 60fps at 10,000+ lines. Color-coded by project.
 
-### Resource Monitoring
-- **Per-process metrics** — CPU percentage and RSS memory for every managed service
-- **Sparkline charts** — Compact trend visualization on project cards
-- **Aggregate stats** — Always-visible total CPU, memory, running count, and active ports in the stats bar
+**Resource Monitoring** — Per-process CPU and memory tracking with sparkline charts. Aggregate totals in an always-visible stats bar.
 
-### Stack Orchestration
-- **Named stacks** — Group related services (frontend + API + database) into a single launch target
-- **Ordered startup** — Start services in dependency order with health checks
-- **One-click launch** — Spin up your entire development environment instantly
+**Stack Orchestration** — Group related services into named stacks. Launch your entire dev environment in dependency order with one click.
 
-### Command Palette
-- **Fuzzy search** — Access any action instantly with `Cmd+K` / `Ctrl+K`
-- **Keyboard-first** — Every feature accessible without touching the mouse
-- **Smart ranking** — Exact matches, word boundary matches, and substring matches prioritized
+**Command Palette** — `Cmd+K` / `Ctrl+K` for fuzzy search across all actions. Every feature is keyboard-accessible.
 
-### Theming
-- **4 built-in themes** — Tokyo Night (default), Tokyo Night Storm, Catppuccin Mocha, GitHub Dark
-- **User themes** — Create custom themes via JSON files in `~/.devdock/themes/`
-- **Hot-reload** — Theme changes apply instantly, no restart needed
-- **24 semantic tokens** — Every visual element responds to theme changes
+**Theming** — Ships with Tokyo Night, Tokyo Night Storm, Catppuccin Mocha, and GitHub Dark. Create custom themes via JSON in `~/.devdock/themes/`. Hot-reload, no restart needed.
 
-### MCP Server Integration
-- **8 AI-accessible tools** — `list_projects`, `start_project`, `stop_project`, `get_port_map`, `kill_port`, `get_logs`, `launch_stack`, `get_resource_usage`
-- **Claude Code / Cursor / Windsurf** — Natural language control of your dev environment
-- **Localhost only** — MCP server binds exclusively to 127.0.0.1
+**MCP Server** — Built-in Model Context Protocol server with 8 tools for AI assistants (Claude Code, Cursor, Windsurf). Control your dev environment with natural language.
 
-## Architecture
-
-```
-devdock/
-├── src/
-│   ├── main/                    # Electron main process
-│   │   ├── index.ts             # App entry, window, tray
-│   │   ├── services/
-│   │   │   ├── ProcessManager   # Spawn/kill/monitor child processes
-│   │   │   ├── PortScanner      # Platform-specific TCP port scanning
-│   │   │   ├── ProjectDiscovery # Auto-detect projects from filesystem
-│   │   │   ├── GitService       # Branch, status, ahead/behind via simple-git
-│   │   │   ├── LogAggregator    # Multiplex stdout/stderr from all processes
-│   │   │   └── ResourceMonitor  # CPU/memory polling per process
-│   │   ├── ipc/                 # Typed IPC handler registration
-│   │   ├── db/                  # SQLite schema, migrations, queries
-│   │   ├── mcp/                 # MCP server (JSON-RPC over stdio)
-│   │   └── tray.ts              # System tray icon + context menu
-│   ├── preload/                 # contextBridge typed API (35 methods)
-│   ├── renderer/
-│   │   ├── components/
-│   │   │   ├── ui/              # 9 primitives (Button, Badge, Sparkline, etc.)
-│   │   │   ├── layout/          # Shell, Sidebar, TitleBar, StatsBar
-│   │   │   ├── projects/        # ProjectCard, ProjectList
-│   │   │   ├── ports/           # PortTile, PortGrid, PortDetail
-│   │   │   ├── logs/            # LogLine, LogStream (virtualized), LogFilter
-│   │   │   ├── stacks/          # StackList, StackEditor
-│   │   │   └── command-palette/ # Fuzzy search command palette
-│   │   ├── views/               # 5 page-level views
-│   │   ├── stores/              # 5 Zustand stores
-│   │   ├── themes/              # Theme engine + 4 built-in themes
-│   │   ├── hooks/               # useKeyboard, useIPC, useTheme
-│   │   └── styles/              # Design tokens + global CSS
-│   └── shared/                  # Types, constants, IPC channel definitions
-├── tests/                       # Vitest unit + integration tests
-└── resources/                   # App icons, tray icons, banner
-```
-
-## Tech Stack
-
-| Layer | Technology | Purpose |
-|-------|-----------|---------|
-| Shell | Electron 33+ | Cross-platform desktop framework |
-| Renderer | React 19 + TypeScript 5.7 | Component-based UI |
-| Build | Vite 6 + electron-vite 5 | Fast HMR + unified build |
-| State | Zustand 5 | Lightweight TypeScript-native stores |
-| Styling | Tailwind CSS 4 + CSS Custom Properties | Utility CSS + theming |
-| Database | SQLite via better-sqlite3 | Local persistence |
-| Git | simple-git | Branch/status without shelling out |
-| Process | child_process + tree-kill | Full process tree management |
-| Virtualization | @tanstack/react-virtual | 60fps log rendering at 10k+ lines |
-
-## Getting Started
-
-### Prerequisites
-
-- **Node.js** 20+ (22+ recommended)
-- **npm** 10+
-- **Git**
-
-### Installation
+## Quick Start
 
 ```bash
 git clone https://github.com/devdock-app/devdock.git
 cd devdock
 npm install
-```
-
-### Development
-
-```bash
-# Start in development mode with HMR
-npm run dev
-
-# If on Apple Silicon with Rosetta Node, rebuild native module first:
-npm run rebuild:electron
 npm run dev
 ```
 
-### Build
+> **Apple Silicon note:** If your Node.js runs under Rosetta, run `npm run rebuild:electron` before `npm run dev`.
 
-```bash
-# Production build (all platforms)
-npm run build
+## Commands
 
-# Platform-specific packaging
-npm run build:mac      # macOS .dmg
-npm run build:win      # Windows .exe
-npm run build:linux    # Linux .AppImage + .deb
-```
-
-### Testing
-
-```bash
-# Run all tests
-npm run test
-
-# Type checking
-npm run typecheck
-
-# Linting
-npm run lint
-
-# If native module is compiled for Electron, rebuild for Node first:
-npm run rebuild:node
-npm run test
-```
-
-## Design System
-
-DevDock uses a comprehensive design token system built on CSS custom properties. Every visual element references semantic tokens, enabling complete theme customization.
-
-### Tokyo Night (Default Theme)
-
-| Token | Value | Purpose |
-|-------|-------|---------|
-| `--dd-bg` | `#1A1B26` | Application background |
-| `--dd-surface-0` | `#16161E` | Deepest surface (sidebar) |
-| `--dd-surface-1` | `#1A1B26` | Primary surface (cards) |
-| `--dd-surface-2` | `#24283B` | Elevated surface (dropdowns) |
-| `--dd-accent` | `#7AA2F7` | Primary interactive color |
-| `--dd-status-running` | `#9ECE6A` | Running service indicator |
-| `--dd-status-error` | `#F7768E` | Error state |
-| `--dd-status-warning` | `#E0AF68` | Warning state |
-| `--dd-text-primary` | `#C0CAF5` | Primary readable text |
-
-### Typography
-
-- **UI**: Geist Sans (variable weight)
-- **Monospace**: Geist Mono (ports, PIDs, paths, logs, terminal output)
-
-### Spacing
-
-4px base unit scale: `--dd-space-1` (4px) through `--dd-space-10` (40px)
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start in development mode with HMR |
+| `npm run build` | Production build |
+| `npm run typecheck` | TypeScript type checking |
+| `npm run test` | Run all tests |
+| `npm run lint` | ESLint check |
+| `npm run build:mac` | Package for macOS (.dmg) |
+| `npm run build:win` | Package for Windows (.exe) |
+| `npm run build:linux` | Package for Linux (.AppImage, .deb) |
 
 ## Keyboard Shortcuts
 
-| Shortcut | Action | Context |
-|----------|--------|---------|
-| `Cmd/Ctrl K` | Open Command Palette | Global |
-| `Cmd/Ctrl 1-4` | Switch view (Projects/Ports/Logs/Stacks) | Global |
-| `Cmd/Ctrl ,` | Open Settings | Global |
-| `Cmd/Ctrl \` | Toggle Sidebar | Global |
-| `J / K` | Navigate up/down in lists | Lists |
-| `Space` | Toggle Start/Stop | Project focused |
-| `O` | Open in Browser | Project focused |
-| `E` | Open in Editor | Project focused |
-| `T` | Open Terminal | Project focused |
-| `R` | Restart | Project focused |
-| `Esc` | Close modal / deselect | Global |
+| Shortcut | Action |
+|----------|--------|
+| `Cmd/Ctrl K` | Command Palette |
+| `Cmd/Ctrl 1-4` | Switch view |
+| `Cmd/Ctrl ,` | Settings |
+| `Cmd/Ctrl \` | Toggle sidebar |
+| `J / K` | Navigate lists |
+| `Space` | Start/Stop project |
+| `O` | Open in browser |
+| `E` | Open in editor |
+| `T` | Open terminal |
+| `R` | Restart |
 
-## Creating Custom Themes
+## Architecture
 
-Place a JSON file in `~/.devdock/themes/`:
+```
+src/
+├── main/                          # Electron main process
+│   ├── services/                  # ProcessManager, PortScanner, ProjectDiscovery,
+│   │                              # GitService, LogAggregator, ResourceMonitor
+│   ├── ipc/handlers.ts            # 31 typed IPC channels
+│   ├── db/                        # SQLite (schema, migrations, queries)
+│   ├── mcp/                       # MCP server (8 tools, JSON-RPC stdio)
+│   └── tray.ts                    # System tray
+├── preload/                       # contextBridge (35 API methods)
+├── renderer/
+│   ├── components/                # UI primitives, layout shell, feature components
+│   ├── views/                     # Projects, Ports, Logs, Stacks, Settings
+│   ├── stores/                    # 5 Zustand stores
+│   ├── themes/                    # Theme engine + 4 built-in themes
+│   └── hooks/                     # useKeyboard, useIPC, useTheme
+└── shared/                        # Types, constants, IPC channel definitions
+```
+
+## Tech Stack
+
+| | |
+|-|-|
+| **Shell** | Electron 33 |
+| **UI** | React 19, TypeScript 5.7 |
+| **Build** | Vite 6, electron-vite 5 |
+| **State** | Zustand 5 |
+| **Styling** | Tailwind CSS 4 + CSS custom properties |
+| **Database** | SQLite (better-sqlite3) |
+| **Git** | simple-git |
+| **Process** | child_process + tree-kill |
+| **Virtualization** | @tanstack/react-virtual |
+
+## Custom Themes
+
+Create `~/.devdock/themes/my-theme.json`:
 
 ```json
 {
-  "name": "My Custom Theme",
+  "name": "My Theme",
   "parent": "tokyo-night",
   "colors": {
     "bg": "#1a1a2e",
@@ -257,54 +149,28 @@ Place a JSON file in `~/.devdock/themes/`:
 }
 ```
 
-Only override the tokens you want to change — everything else inherits from the parent theme. DevDock hot-reloads themes when the file changes on disk.
+Only override what you want — everything else inherits from the parent.
 
-## MCP Server
+## MCP Tools
 
-DevDock includes a built-in Model Context Protocol server that enables AI coding assistants to query and control your local dev environment.
-
-### Available Tools
-
-| Tool | Description | Example |
-|------|-------------|---------|
-| `list_projects` | All tracked projects with status | "What projects do I have running?" |
-| `start_project` | Start a project by name | "Start the auth-service" |
-| `stop_project` | Stop a project by name | "Stop whatever is on port 3001" |
-| `get_port_map` | All port bindings | "What's running on port 8080?" |
-| `kill_port` | Kill process on a port | "Kill whatever is on port 3000" |
-| `get_logs` | Recent logs, filterable | "Show me errors from the last 5 min" |
-| `launch_stack` | Launch a named stack | "Spin up the e-commerce stack" |
-| `get_resource_usage` | CPU/memory for all services | "Which service uses the most memory?" |
+| Tool | Description |
+|------|-------------|
+| `list_projects` | All projects with status, port, git info |
+| `start_project` | Start a project by name |
+| `stop_project` | Stop a project by name |
+| `get_port_map` | All TCP port bindings |
+| `kill_port` | Kill process on a given port |
+| `get_logs` | Recent logs, filterable by project/level |
+| `launch_stack` | Launch a named stack |
+| `get_resource_usage` | CPU/memory for all services |
 
 ## Security
 
-- **Context Isolation**: `contextIsolation: true`, `nodeIntegration: false`
-- **No File Modification**: DevDock never writes to project directories
-- **Localhost Only**: MCP server binds exclusively to 127.0.0.1
-- **OS Keychain**: OAuth tokens stored via OS-native credential storage
-- **CSP**: Strict Content Security Policy in production
-- **No Privilege Escalation**: Processes run with user's own permissions
-
-## Performance Targets
-
-| Metric | Target |
-|--------|--------|
-| Cold start | < 2 seconds |
-| Port scan cycle | < 500ms |
-| Log rendering (10k lines) | 60fps |
-| Memory (idle) | < 150MB |
-| Memory (10 services) | < 300MB |
-| Theme switch | < 100ms |
-
-## Project Stats
-
-- **71 source files** across main process, preload, renderer, and shared modules
-- **35 IPC API methods** bridging main and renderer
-- **31 IPC channels** for bidirectional communication
-- **4 streaming event channels** for real-time updates
-- **13 unit tests** covering the database layer
-- **0 TypeScript errors**, **0 lint warnings**
-- **~850KB total bundle** (main: 92KB, preload: 5KB, renderer: 743KB JS + 29KB CSS)
+- `contextIsolation: true`, `nodeIntegration: false`
+- MCP server binds to `127.0.0.1` only
+- Strict CSP in production
+- Never writes to project directories
+- Processes run with user's own permissions
 
 ## License
 
@@ -313,7 +179,5 @@ MIT
 ---
 
 <p align="center">
-  <img src="resources/icon-64.png" alt="DevDock" width="24" />
-  <br />
-  <sub>Built with Electron, React, TypeScript, and the Tokyo Night color palette</sub>
+  <img src="resources/icon-64.png" alt="DevDock" width="20" />
 </p>

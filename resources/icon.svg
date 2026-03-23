@@ -1,41 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
-  <defs>
-    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#1E2030"/>
-      <stop offset="100%" stop-color="#111219"/>
-    </linearGradient>
-    <linearGradient id="glowGrad" x1="0.5" y1="0" x2="0.5" y2="1">
-      <stop offset="0%" stop-color="#7AA2F7" stop-opacity="0.12"/>
-      <stop offset="60%" stop-color="#7AA2F7" stop-opacity="0"/>
-    </linearGradient>
-    <linearGradient id="bracketL" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#7AA2F7"/>
-      <stop offset="100%" stop-color="#5D7CE0"/>
-    </linearGradient>
-    <linearGradient id="bracketR" x1="1" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#BB9AF7"/>
-      <stop offset="100%" stop-color="#9D7AE0"/>
-    </linearGradient>
-  </defs>
-
   <!-- Background -->
-  <rect width="1024" height="1024" rx="224" fill="url(#bgGrad)"/>
-  <rect width="1024" height="512" rx="224" fill="url(#glowGrad)"/>
-  <rect x="4" y="4" width="1016" height="1016" rx="220" fill="none" stroke="#7AA2F7" stroke-width="2.5" stroke-opacity="0.18"/>
+  <rect width="1024" height="1024" rx="224" fill="#131520"/>
 
-  <!-- Left angle bracket < -->
-  <polygon points="338,290 336,296 170,512 336,728 338,734 282,734 142,512 282,290" fill="#7AA2F7"/>
+  <!-- Bold geometric "D" monogram — fills the icon space -->
+  <!-- The D is built from a thick vertical bar + a large curved right side -->
+  <!-- It suggests both "D" for DevDock and a terminal/dock shape -->
+  <path d="
+    M280,200
+    L280,824
+    L480,824
+    C680,824 800,700 800,512
+    C800,324 680,200 480,200
+    Z
+    M400,340
+    L470,340
+    C600,340 670,400 670,512
+    C670,624 600,684 470,684
+    L400,684
+    Z
+  " fill="#7AA2F7"/>
 
-  <!-- Right angle bracket > -->
-  <polygon points="686,290 688,296 854,512 688,728 686,734 742,734 882,512 742,290" fill="#BB9AF7"/>
-
-  <!-- Center dashboard bars -->
-  <rect x="432" y="412" width="160" height="28" rx="14" fill="#9ECE6A"/>
-  <rect x="450" y="470" width="124" height="28" rx="14" fill="#7AA2F7"/>
-  <rect x="468" y="528" width="88" height="28" rx="14" fill="#E0AF68"/>
-
-  <!-- Pulse dots -->
-  <circle cx="482" cy="610" r="10" fill="#9ECE6A"/>
-  <circle cx="512" cy="610" r="10" fill="#9ECE6A" opacity="0.45"/>
-  <circle cx="542" cy="610" r="10" fill="#9ECE6A" opacity="0.2"/>
+  <!-- Accent notch — a small glowing bar inside the D, suggests a cursor/terminal -->
+  <rect x="440" y="478" width="140" height="68" rx="10" fill="#131520"/>
+  <rect x="456" y="494" width="108" height="36" rx="6" fill="#9ECE6A"/>
 </svg>
