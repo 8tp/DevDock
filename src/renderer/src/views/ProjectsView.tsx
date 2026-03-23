@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { useProjectStore } from '../stores/projectStore'
 import { useSettingsStore } from '../stores/settingsStore'
 import { ProjectList } from '../components/projects'
-import { Button, Input } from '../components/ui'
+import { Button } from '../components/ui'
 
 // ─── Folder Icon ─────────────────────────────────────────────────────────────
 
@@ -84,7 +84,6 @@ const EmptyState: React.FC = () => {
   const addScanDirectory = useSettingsStore((s) => s.addScanDirectory)
   const settings = useSettingsStore((s) => s.settings)
   const fetchSettings = useSettingsStore((s) => s.fetchSettings)
-  const [dirPath, setDirPath] = useState('')
   const [scanning, setScanning] = useState(false)
 
   useEffect(() => {
@@ -93,19 +92,18 @@ const EmptyState: React.FC = () => {
 
   const hasScanDirs = (settings?.scanDirectories?.length ?? 0) > 0
 
-  const handleAddAndScan = useCallback(async () => {
-    const pathToAdd = dirPath.trim()
-    if (!pathToAdd) return
+  const handlePickAndScan = useCallback(async () => {
+    const picked = await window.api.pickDirectory()
+    if (!picked) return
     setScanning(true)
     try {
-      await addScanDirectory(pathToAdd)
-      setDirPath('')
+      await addScanDirectory(picked)
       await scanProjects()
     } catch (err) {
       console.error('[DevDock] Add scan dir error:', err)
     }
     setScanning(false)
-  }, [dirPath, addScanDirectory, scanProjects])
+  }, [addScanDirectory, scanProjects])
 
   const handleScanOnly = useCallback(async () => {
     setScanning(true)
@@ -123,29 +121,18 @@ const EmptyState: React.FC = () => {
         <p className="mt-1 text-sm" style={{ color: 'var(--dd-text-muted)' }}>
           {hasScanDirs
             ? 'No projects found in your scan directories. Try adding another directory.'
-            : 'Add a directory to scan for projects (e.g. ~/dev or ~/projects).'}
+            : 'Choose a directory that contains your projects.'}
         </p>
       </div>
 
-      <div className="flex items-center gap-2 w-full max-w-md">
-        <Input
-          placeholder="~/dev"
-          value={dirPath}
-          onChange={(e) => setDirPath(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') void handleAddAndScan()
-          }}
-          className="flex-1"
-        />
-        <Button
-          variant="primary"
-          size="md"
-          onClick={() => void handleAddAndScan()}
-          disabled={!dirPath.trim() || scanning}
-        >
-          {scanning ? 'Scanning...' : 'Add & Scan'}
-        </Button>
-      </div>
+      <Button
+        variant="primary"
+        size="md"
+        onClick={() => void handlePickAndScan()}
+        disabled={scanning}
+      >
+        {scanning ? 'Scanning...' : 'Choose Directory'}
+      </Button>
 
       {hasScanDirs && (
         <Button

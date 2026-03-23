@@ -48,6 +48,7 @@ interface DevDockAPI {
   openInEditor: (path: string) => Promise<any>
   openInTerminal: (path: string) => Promise<any>
   openInBrowser: (url: string) => Promise<any>
+  pickDirectory: () => Promise<string | null>
 
   // Event subscriptions
   onProjectStatus: (callback: (data: unknown) => void) => () => void

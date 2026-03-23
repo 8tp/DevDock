@@ -1,7 +1,7 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useCallback } from 'react'
 import { useSettingsStore } from '../stores/settingsStore'
 import { useThemeStore } from '../stores/themeStore'
-import { Button, Input, Kbd } from '../components/ui'
+import { Button, Kbd } from '../components/ui'
 import type { Theme } from '@shared/types'
 
 // ─── Constants ─────────────────────────────────────────────────────────────
@@ -135,8 +135,6 @@ function SettingsView(): React.JSX.Element {
   const currentTheme = useThemeStore((s) => s.currentTheme)
   const switchTheme = useThemeStore((s) => s.switchTheme)
 
-  const [newDirPath, setNewDirPath] = useState('')
-
   useEffect(() => {
     void fetchSettings()
   }, [fetchSettings])
@@ -144,11 +142,10 @@ function SettingsView(): React.JSX.Element {
   // ─── Scan Directories ──────────────────────────────────────────────────
 
   const handleAddDirectory = useCallback(async () => {
-    const trimmed = newDirPath.trim()
-    if (!trimmed) return
-    await addScanDirectory(trimmed)
-    setNewDirPath('')
-  }, [newDirPath, addScanDirectory])
+    const picked = await window.api.pickDirectory()
+    if (!picked) return
+    await addScanDirectory(picked)
+  }, [addScanDirectory])
 
   const handleRemoveDirectory = useCallback(
     async (id: string) => {
@@ -269,29 +266,14 @@ function SettingsView(): React.JSX.Element {
             )}
           </div>
 
-          {/* Add new directory */}
-          <div className="flex items-center gap-2">
-            <div className="flex-1">
-              <Input
-                value={newDirPath}
-                onChange={(e) => setNewDirPath(e.target.value)}
-                placeholder="/Users/you/projects"
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    void handleAddDirectory()
-                  }
-                }}
-              />
-            </div>
-            <Button
-              variant="secondary"
-              size="md"
-              onClick={() => void handleAddDirectory()}
-              disabled={!newDirPath.trim()}
-            >
-              Add
-            </Button>
-          </div>
+          {/* Add new directory via native picker */}
+          <Button
+            variant="secondary"
+            size="md"
+            onClick={() => void handleAddDirectory()}
+          >
+            Add Directory
+          </Button>
         </SectionCard>
 
         {/* ── Section 2: Appearance / Theme ────────────────────────────── */}

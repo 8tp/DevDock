@@ -56,6 +56,7 @@ const api = {
   openInEditor: (path: string) => invoke(IPC.SYSTEM_OPEN_IN_EDITOR, { path }),
   openInTerminal: (path: string) => invoke(IPC.SYSTEM_OPEN_IN_TERMINAL, { path }),
   openInBrowser: (url: string) => invoke(IPC.SYSTEM_OPEN_IN_BROWSER, { url }),
+  pickDirectory: () => invoke<string | null>('system:pick-directory'),
 
   // Event subscriptions (streaming from main process)
   onProjectStatus: (callback: (data: unknown) => void) => {

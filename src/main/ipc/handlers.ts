@@ -1,4 +1,4 @@
-import { ipcMain, BrowserWindow, shell } from 'electron'
+import { ipcMain, BrowserWindow, shell, dialog } from 'electron'
 import { spawn } from 'child_process'
 import { IPC } from '@shared/ipc-channels'
 import type { DevDockDatabase } from '../db/schema'
@@ -275,6 +275,16 @@ export function registerIPCHandlers(services: Services): void {
 
   ipcMain.handle(IPC.SYSTEM_OPEN_IN_BROWSER, (_event, { url }) => {
     shell.openExternal(url)
+  })
+
+  // Native directory picker
+  ipcMain.handle('system:pick-directory', async () => {
+    const result = await dialog.showOpenDialog({
+      properties: ['openDirectory'],
+      title: 'Select a directory to scan for projects'
+    })
+    if (result.canceled || result.filePaths.length === 0) return null
+    return result.filePaths[0]
   })
 }
 
