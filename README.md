@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="resources/icon-256.png" alt="DevDock" width="128" />
+  <img src="resources/icon-256.png?v=2" alt="DevDock" width="128" />
 </p>
 
 <h1 align="center">DevDock</h1>
@@ -179,5 +179,5 @@ MIT
 ---
 
 <p align="center">
-  <img src="resources/icon-64.png" alt="DevDock" width="20" />
+  <img src="resources/icon-64.png?v=2" alt="DevDock" width="20" />
 </p>
