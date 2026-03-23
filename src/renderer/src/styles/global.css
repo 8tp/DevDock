@@ -1,0 +1,159 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+/* Base Styles */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--dd-font-sans);
+  background-color: var(--dd-bg);
+  color: var(--dd-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--dd-accent);
+  color: var(--dd-text-inverse);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--dd-border);
+  border-radius: var(--dd-radius-full);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--dd-text-muted);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Monospace elements */
+code,
+pre,
+kbd,
+.font-mono {
+  font-family: var(--dd-font-mono);
+}
+
+/* Focus ring utility */
+.dd-focus-ring:focus-visible {
+  outline: 2px solid var(--dd-border-focus);
+  outline-offset: 2px;
+}
+
+/* Animation Keyframes */
+@keyframes dd-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dd-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dd-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dd-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes dd-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes dd-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Animation utilities */
+.dd-animate-fade-in {
+  animation: dd-fade-in var(--dd-duration-normal) var(--dd-ease-out);
+}
+
+.dd-animate-slide-up {
+  animation: dd-slide-up var(--dd-duration-normal) var(--dd-ease-out);
+}
+
+.dd-animate-slide-down {
+  animation: dd-slide-down var(--dd-duration-normal) var(--dd-ease-out);
+}
+
+.dd-animate-scale-in {
+  animation: dd-scale-in var(--dd-duration-normal) var(--dd-ease-out);
+}
+
+.dd-animate-pulse {
+  animation: dd-pulse 2s ease-in-out infinite;
+}
+
+/* Drag region for frameless window */
+.dd-drag-region {
+  -webkit-app-region: drag;
+}
+
+.dd-no-drag {
+  -webkit-app-region: no-drag;
+}
+
+/* Prevent text selection on UI elements */
+.dd-no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}

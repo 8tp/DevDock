@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
+  <!--
+    macOS menu bar tray icon for DevDock.
+    Pure black on transparent — macOS template image convention.
+    Simplified dock/command-center motif.
+  -->
+
+  <!-- Outer rounded rectangle frame -->
+  <rect x="1" y="1" width="20" height="20" rx="4.5" ry="4.5" fill="none" stroke="#000000" stroke-width="1.5" opacity="0.85"/>
+
+  <!-- Top bar -->
+  <rect x="3.5" y="3.5" width="15" height="2.5" rx="1" fill="#000000" opacity="0.7"/>
+
+  <!-- 4 dock panels (2x2 grid) -->
+  <!-- Top-left panel -->
+  <rect x="3.5" y="7.5" width="6.5" height="4.5" rx="1.2" fill="#000000" opacity="0.55"/>
+
+  <!-- Top-right panel (highlighted/active) -->
+  <rect x="12" y="7.5" width="6.5" height="4.5" rx="1.2" fill="#000000" opacity="0.85"/>
+
+  <!-- Bottom-left panel -->
+  <rect x="3.5" y="13.5" width="6.5" height="4.5" rx="1.2" fill="#000000" opacity="0.55"/>
+
+  <!-- Bottom-right panel -->
+  <rect x="12" y="13.5" width="6.5" height="4.5" rx="1.2" fill="#000000" opacity="0.55"/>
+
+  <!-- Angle bracket hint in the active panel -->
+  <text x="15.25" y="11.2" font-family="-apple-system, system-ui, sans-serif" font-size="4" font-weight="700" fill="#FFFFFF" text-anchor="middle">&gt;_</text>
+</svg>

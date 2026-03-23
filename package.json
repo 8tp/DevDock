@@ -1,0 +1,63 @@
+{
+  "name": "devdock",
+  "version": "1.0.0",
+  "productName": "DevDock",
+  "description": "The Local Development Command Center",
+  "main": "./out/main/index.js",
+  "author": "DevDock",
+  "license": "MIT",
+  "build": {
+    "appId": "com.devdock.app",
+    "productName": "DevDock",
+    "icon": "resources/icon.png"
+  },
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "preview": "electron-vite preview",
+    "typecheck:node": "tsc --noEmit -p tsconfig.node.json",
+    "typecheck:web": "tsc --noEmit -p tsconfig.web.json",
+    "typecheck": "npm run typecheck:node && npm run typecheck:web",
+    "test": "vitest run",
+    "test:main": "vitest run --project main",
+    "test:renderer": "vitest run --project renderer",
+    "lint": "eslint . --ext .ts,.tsx",
+    "build:mac": "electron-vite build && electron-forge make --platform darwin",
+    "build:win": "electron-vite build && electron-forge make --platform win32",
+    "build:linux": "electron-vite build && electron-forge make --platform linux",
+    "rebuild:electron": "npx node-gyp rebuild --directory=node_modules/better-sqlite3 --arch=arm64 --target=$(npx electron --version | tr -d v) --dist-url=https://electronjs.org/headers",
+    "rebuild:node": "npm rebuild better-sqlite3"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.8.1",
+    "chokidar": "^4.0.3",
+    "electron-updater": "^6.3.9",
+    "simple-git": "^3.27.0",
+    "tree-kill": "^1.2.2",
+    "zustand": "^5.0.3"
+  },
+  "devDependencies": {
+    "@electron-toolkit/preload": "^3.0.1",
+    "@electron-toolkit/utils": "^4.0.0",
+    "@eslint/js": "^10.0.1",
+    "@tailwindcss/vite": "^4.1.3",
+    "@tanstack/react-virtual": "^3.13.6",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^22.13.9",
+    "@types/react": "^19.0.12",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.7.0",
+    "electron": "^33.4.0",
+    "electron-vite": "^5.0.0",
+    "eslint": "^9.22.0",
+    "jsdom": "^26.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.1.3",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.57.1",
+    "vitest": "^3.0.9"
+  }
+}
